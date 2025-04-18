@@ -98,7 +98,7 @@ async def execute_code(request: CodeExecutionRequest):
         try:
             container = docker_client.containers.run(
                 image="python-code-execution:latest",
-                command=[],  # Use empty command to let the entrypoint script handle it
+                command=["python", "/code/code.py"],
                 volumes={temp_dir: {"bind": "/code", "mode": "ro"}},
                 mem_limit=request.memory_limit,
                 cpu_quota=int(100000 * request.cpu_limit),  # Docker CPU quota in microseconds
@@ -212,7 +212,7 @@ async def generate_and_execute_code(request: QueryExecutionRequest):
         try:
             container = docker_client.containers.run(
                 image="python-code-execution:latest",
-                command=[],  # Use empty command to let the entrypoint script handle it
+                command=["python", "/code/code.py"],
                 volumes={temp_dir: {"bind": "/code", "mode": "ro"}},
                 mem_limit=request.memory_limit,
                 cpu_quota=int(100000 * request.cpu_limit),
