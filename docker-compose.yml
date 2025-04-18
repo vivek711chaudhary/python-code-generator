@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  code-execution-api:
+    build:
+      context: .
+      dockerfile: dockerfile/Dockerfile
+    image: code-execution-api
+    container_name: code-execution-api
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./app:/app
+      - ./requirements.txt:/app/requirements.txt
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - TOGETHER_API_KEY=57f633928de4e409bca9a8fef3584efb2baa67f6359553d8a5817b7d9a456299
+      - API_TIMEOUT=30
+      - PORT=8002
+    restart: always
+    entrypoint: []
+    group_add:
+      - ${DOCKER_GID:-999}
+    user: root
+    command: ["/bin/bash", "-c", "cd /app && python -m venv /tmp/venv && . /tmp/venv/bin/activate && pip install --no-cache-dir -r requirements.txt && python -m uvicorn main:app --host 0.0.0.0 --port 8002"]

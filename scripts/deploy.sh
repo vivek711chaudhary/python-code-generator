@@ -109,7 +109,7 @@ services:
     build:
       context: .
       dockerfile: dockerfile/Dockerfile
-    image: python-code-execution:latest
+    image: code-execution-api
     container_name: code-execution-api
     ports:
       - "$PORT:$PORT"
