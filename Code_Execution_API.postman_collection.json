@@ -1,0 +1,289 @@
+{
+	"info": {
+		"_postman_id": "9e8d4c1b-3f6e-4c90-b8e8-9d8f3cc7d9eb",
+		"name": "Secure Python Code Execution API",
+		"description": "A collection for testing the Secure Python Code Execution API endpoints.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8002/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"health"
+					]
+				},
+				"description": "Simple health check to verify the API is running."
+			},
+			"response": []
+		},
+		{
+			"name": "Execute Code - Fibonacci",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"code\": \"def fibonacci(n):\\n    a, b = 0, 1\\n    for _ in range(n):\\n        a, b = b, a + b\\n    return a\\n\\nresult = fibonacci(10)\\nprint(f'Fibonacci(10) = {result}')\",\n    \"timeout\": 5,\n    \"memory_limit\": \"100m\",\n    \"cpu_limit\": 0.5,\n    \"validate_code\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8002/execute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"execute"
+					]
+				},
+				"description": "Execute a simple Fibonacci calculation."
+			},
+			"response": []
+		},
+		{
+			"name": "Execute Code - Unsafe (Should Fail)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"code\": \"import os\\nprint('Files in root directory:', os.listdir('/'))\\n\",\n    \"timeout\": 5,\n    \"memory_limit\": \"100m\",\n    \"cpu_limit\": 0.5,\n    \"validate_code\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8002/execute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"execute"
+					]
+				},
+				"description": "Execute unsafe code that tries to access the file system. Should fail validation."
+			},
+			"response": []
+		},
+		{
+			"name": "Execute Code - Skip Validation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"code\": \"print('Hello, World!')\\n\",\n    \"timeout\": 5,\n    \"memory_limit\": \"100m\",\n    \"cpu_limit\": 0.5,\n    \"validate_code\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8002/execute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"execute"
+					]
+				},
+				"description": "Execute a simple hello world without validation."
+			},
+			"response": []
+		},
+		{
+			"name": "Generate and Execute - Prime Numbers",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": \"Calculate the first 10 prime numbers\",\n    \"timeout\": 10,\n    \"memory_limit\": \"100m\",\n    \"cpu_limit\": 0.5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8002/generate-and-execute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"generate-and-execute"
+					]
+				},
+				"description": "Generate and execute code to calculate prime numbers."
+			},
+			"response": []
+		},
+		{
+			"name": "Generate and Execute - Factorial",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": \"Calculate the factorial of 10\",\n    \"timeout\": 5,\n    \"memory_limit\": \"100m\",\n    \"cpu_limit\": 0.5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8002/generate-and-execute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"generate-and-execute"
+					]
+				},
+				"description": "Generate and execute code to calculate factorial."
+			},
+			"response": []
+		},
+		{
+			"name": "Generate and Execute - Word Frequency",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": \"Create a function that counts the frequency of words in a text and display the 5 most common words in 'The quick brown fox jumps over the lazy dog. The dog barks and the fox runs away.'\",\n    \"timeout\": 5,\n    \"memory_limit\": \"100m\",\n    \"cpu_limit\": 0.5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8002/generate-and-execute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"generate-and-execute"
+					]
+				},
+				"description": "Generate and execute code to count word frequency."
+			},
+			"response": []
+		},
+		{
+			"name": "Generate and Execute - Statistics",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": \"Generate a list of 100 random numbers between 1 and 1000, then calculate their mean, median, mode, and standard deviation\",\n    \"timeout\": 10,\n    \"memory_limit\": \"100m\",\n    \"cpu_limit\": 0.5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8002/generate-and-execute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"generate-and-execute"
+					]
+				},
+				"description": "Generate and execute code for statistical calculations."
+			},
+			"response": []
+		},
+		{
+			"name": "Generate and Execute - Rock Paper Scissors",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"query\": \"Create a text-based rock-paper-scissors game where the computer makes a random choice and then tells me if I won, lost or tied. Let me choose rock.\",\n    \"timeout\": 5,\n    \"memory_limit\": \"100m\",\n    \"cpu_limit\": 0.5\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8002/generate-and-execute",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8002",
+					"path": [
+						"generate-and-execute"
+					]
+				},
+				"description": "Generate and execute code for a simple rock-paper-scissors game."
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8002",
+			"type": "string"
+		}
+	]
+} 
